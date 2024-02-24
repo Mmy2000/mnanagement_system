@@ -34,7 +34,8 @@ def vehicle_detail(request, vehicle_id):
     return Response(serializer.data)
 
 @api_view(['POST'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
 def mark_quality_check(request, vehicle_id):
     try:
         quality_check = QualityCheck.objects.get(vehicle_id=vehicle_id)
@@ -46,8 +47,8 @@ def mark_quality_check(request, vehicle_id):
     except QualityCheck.DoesNotExist:
         return Response({"message": "Quality Check not found for the vehicle."}, status=status.HTTP_404_NOT_FOUND)
 
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 @api_view(['POST'])
 def initiate_checkout(request, vehicle_id):
     try:
